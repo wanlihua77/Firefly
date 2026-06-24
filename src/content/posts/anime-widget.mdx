@@ -1,0 +1,17 @@
+---
+title: 我的追番窗口
+published: 2026-06-24
+description: 在文章页面中嵌入追番小组件，展示 Bilibili、TMDB 和本地 JSON 合并后的追番列表。
+tags: [追番, 动画, MDX]
+category: 动画分享
+draft: false
+image: ./images/firefly4.avif
+---
+
+import AnimePostWindow from "@components/pages/anime/AnimePostWindow.astro";
+
+这里是嵌入在文章正文里的追番展示窗口，数据和 `/anime/` 页面保持一致。
+
+<AnimePostWindow limit={15} />
+
+后续维护时，只需要修改 `src/config/siteConfig.ts` 的 `anime` 配置，或者在 `public/anime-list.json` 中补充本地条目即可。

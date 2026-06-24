@@ -1,0 +1,107 @@
+---
+import { Icon } from "astro-icon/components";
+import AnimeGrid from "@/components/pages/anime/AnimeGrid.svelte";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
+import { getAnimePageData } from "@/utils/anime-utils";
+
+interface Props {
+	limit?: number;
+	title?: string;
+	description?: string;
+	showLink?: boolean;
+}
+
+const {
+	limit = 15,
+	title = i18n(I18nKey.anime),
+	description = i18n(I18nKey.animeSubtitle),
+	showLink = true,
+} = Astro.props;
+
+const {
+	animeList,
+	totalCount,
+	tmdbAverageRating,
+	bilibiliAverageRating,
+	isConfigured,
+	sourceLabel,
+} = await getAnimePageData();
+---
+
+<section class="not-prose anime-post-window my-8 overflow-hidden rounded-xl border border-(--line-divider) bg-(--card-bg) p-4 sm:p-6">
+	<div class="mb-5 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+		<div class="min-w-0">
+			<div class="mb-2 flex items-center gap-3">
+				<div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-(--primary) text-white dark:text-black/70">
+					<Icon name="material-symbols:live-tv" class="text-[1.45rem]" />
+				</div>
+				<h2 class="m-0 text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+					{title}
+				</h2>
+			</div>
+			<p class="m-0 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+				{description}
+			</p>
+		</div>
+		{showLink && (
+			<a
+				href="/anime/"
+				class="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg bg-(--btn-regular-bg) px-3 py-2 text-sm font-semibold text-(--btn-content) no-underline transition hover:bg-(--btn-regular-bg-hover)"
+			>
+				<span>完整追番页</span>
+				<Icon name="material-symbols:arrow-forward-rounded" class="text-[1.1rem]" />
+			</a>
+		)}
+	</div>
+
+	{!isConfigured ? (
+		<div class="rounded-lg border border-dashed border-(--line-divider) px-4 py-10 text-center">
+			<Icon name="material-symbols:settings" class="mx-auto mb-3 text-[2rem] text-(--btn-content)" />
+			<div class="mb-1 text-base font-semibold text-neutral-900 dark:text-neutral-100">
+				{i18n(I18nKey.animeNotConfigured)}
+			</div>
+			<p class="m-0 text-sm text-neutral-500 dark:text-neutral-400">
+				{i18n(I18nKey.animeNotConfiguredDesc)}
+			</p>
+		</div>
+	) : (
+		<>
+			<div class="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+				<div class="rounded-lg border border-(--line-divider) bg-(--btn-regular-bg) p-3">
+					<div class="text-xs text-neutral-500 dark:text-neutral-400">{i18n(I18nKey.animeTotal)}</div>
+					<div class="mt-1 text-2xl font-bold text-neutral-900 dark:text-neutral-100">{totalCount}</div>
+				</div>
+				<div class="rounded-lg border border-(--line-divider) bg-(--btn-regular-bg) p-3">
+					<div class="text-xs text-neutral-500 dark:text-neutral-400">{i18n(I18nKey.animeBilibiliAvg)}</div>
+					<div class="mt-1 text-2xl font-bold text-neutral-900 dark:text-neutral-100">{bilibiliAverageRating}</div>
+				</div>
+				<div class="rounded-lg border border-(--line-divider) bg-(--btn-regular-bg) p-3">
+					<div class="text-xs text-neutral-500 dark:text-neutral-400">{i18n(I18nKey.animeTmdbAvg)}</div>
+					<div class="mt-1 text-2xl font-bold text-neutral-900 dark:text-neutral-100">{tmdbAverageRating}</div>
+				</div>
+				<div class="rounded-lg border border-(--line-divider) bg-(--btn-regular-bg) p-3">
+					<div class="text-xs text-neutral-500 dark:text-neutral-400">{i18n(I18nKey.animeSource)}</div>
+					<div class="mt-1 text-base font-bold leading-tight text-neutral-900 dark:text-neutral-100">{sourceLabel}</div>
+				</div>
+			</div>
+			<AnimeGrid
+				client:load
+				items={animeList}
+				bilibiliAverageRating={bilibiliAverageRating}
+				itemsPerPage={limit}
+			/>
+		</>
+	)}
+</section>
+
+<style>
+	.anime-post-window :global(.anime-grid) {
+		width: 100%;
+	}
+
+	.anime-post-window :global(.anime-card h3),
+	.anime-post-window :global(.anime-card p) {
+		margin: 0;
+	}
+</style>

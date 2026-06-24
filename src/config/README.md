@@ -74,3 +74,4 @@ import { profileConfig } from "@/config/profileConfig";
 - 每个配置文件对应 `types/` 目录下的独立类型定义文件
 - `siteConfig.ts` 只保留站点核心信息，不聚合其他模块配置
 - `navBarConfig.ts` 底部的 `LinkPresets` 可自由自定义导航栏链接的名称、图标和 URL
+- 追番页面由 `siteConfig.ts` 的 `pages.anime` 和 `anime` 配置控制，维护方式见 `docs/anime-widget.md`

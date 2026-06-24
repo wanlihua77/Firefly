@@ -1,6 +1,5 @@
 import { loadRenderers } from "astro:container";
 import { render } from "astro:content";
-import { getContainerRenderer as getMDXRenderer } from "@astrojs/mdx/container-renderer";
 import rss, { type RSSFeedItem } from "@astrojs/rss";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
@@ -13,6 +12,17 @@ import sanitizeHtml from "sanitize-html";
 import { siteConfig } from "@/config";
 import pkg from "../../package.json";
 
+const mdxContainerRenderer = {
+	name: "astro:jsx",
+	serverEntrypoint: "@astrojs/mdx/server.js",
+};
+
+const svelteContainerRenderer = {
+	name: "@astrojs/svelte",
+	clientEntrypoint: "@astrojs/svelte/client.js",
+	serverEntrypoint: "@astrojs/svelte/server.js",
+};
+
 function stripInvalidXmlChars(str: string): string {
 	return str.replace(
 		// biome-ignore lint/suspicious/noControlCharactersInRegex: https://www.w3.org/TR/xml/#charsets
@@ -21,9 +31,12 @@ function stripInvalidXmlChars(str: string): string {
 	);
 }
 
-export async function GET(context: APIContext) {
+export async function GET(context: APIContext): Promise<Response> {
 	const blog = await getSortedPosts();
-	const renderers = await loadRenderers([getMDXRenderer()]);
+	const renderers = await loadRenderers([
+		mdxContainerRenderer,
+		svelteContainerRenderer,
+	]);
 	const container = await AstroContainer.create({ renderers });
 	const feedItems: RSSFeedItem[] = [];
 	for (const post of blog) {

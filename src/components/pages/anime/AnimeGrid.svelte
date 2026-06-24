@@ -12,7 +12,7 @@ interface Props {
 	itemsPerPage?: number;
 }
 
-let { items, bilibiliAverageRating, itemsPerPage = 20 }: Props = $props();
+let { items, bilibiliAverageRating, itemsPerPage = 15 }: Props = $props();
 
 // 状态
 let searchQuery = $state("");
@@ -121,7 +121,7 @@ let movieLabel = $derived(
 	<div class="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 		<!-- 搜索框 -->
 		<div class="relative flex-1 max-w-md">
-			<svg class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			<svg class="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
 			</svg>
 			<input
@@ -129,28 +129,28 @@ let movieLabel = $derived(
 				placeholder={i18n(I18nKey.animeSearch)}
 				value={searchQuery}
 				oninput={handleSearch}
-				class="w-full rounded-xl border border-(--line-divider) bg-(--card-bg) py-2.5 pl-10 pr-4 text-sm text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 outline-none transition-colors focus:border-(--primary)"
+				class="w-full rounded-xl border border-(--line-divider) bg-(--card-bg) py-2.5 pl-10 pr-4 text-sm text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 dark:placeholder-neutral-500 outline-none transition-all duration-200 focus:border-(--primary) focus:ring-2 focus:ring-(--primary)/20 focus:shadow-sm"
 			/>
 		</div>
 
 		<!-- 筛选和排序 -->
-		<div class="flex flex-wrap items-center gap-2">
+		<div class="flex flex-wrap items-center gap-3">
 			<!-- 类型筛选 -->
-			<div class="flex rounded-lg border border-(--line-divider) overflow-hidden">
+			<div class="flex items-center gap-2">
 				<button
-					class="px-3 py-1.5 text-xs font-medium transition-colors {activeFilter === 'all' ? 'bg-(--primary) text-white' : 'bg-(--card-bg) text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800'}"
+					class="rounded-full px-4 py-1.5 text-xs font-semibold transition-all duration-200 {activeFilter === 'all' ? 'bg-(--primary) text-white shadow-md shadow-(--primary)/30' : 'bg-(--card-bg) text-neutral-600 dark:text-neutral-400 border border-(--line-divider) hover:border-(--primary)/50 hover:text-(--primary)'}"
 					onclick={() => setFilter("all")}
 				>
 					{allLabel}
 				</button>
 				<button
-					class="px-3 py-1.5 text-xs font-medium transition-colors border-l border-(--line-divider) {activeFilter === 'tv' ? 'bg-(--primary) text-white' : 'bg-(--card-bg) text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800'}"
+					class="rounded-full px-4 py-1.5 text-xs font-semibold transition-all duration-200 {activeFilter === 'tv' ? 'bg-(--primary) text-white shadow-md shadow-(--primary)/30' : 'bg-(--card-bg) text-neutral-600 dark:text-neutral-400 border border-(--line-divider) hover:border-(--primary)/50 hover:text-(--primary)'}"
 					onclick={() => setFilter("tv")}
 				>
 					{tvLabel}
 				</button>
 				<button
-					class="px-3 py-1.5 text-xs font-medium transition-colors border-l border-(--line-divider) {activeFilter === 'movie' ? 'bg-(--primary) text-white' : 'bg-(--card-bg) text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800'}"
+					class="rounded-full px-4 py-1.5 text-xs font-semibold transition-all duration-200 {activeFilter === 'movie' ? 'bg-(--primary) text-white shadow-md shadow-(--primary)/30' : 'bg-(--card-bg) text-neutral-600 dark:text-neutral-400 border border-(--line-divider) hover:border-(--primary)/50 hover:text-(--primary)'}"
 					onclick={() => setFilter("movie")}
 				>
 					{movieLabel}
@@ -158,32 +158,40 @@ let movieLabel = $derived(
 			</div>
 
 			<!-- 排序 -->
-			<select
-				value={sortBy}
-				onchange={(e) => setSort((e.target as HTMLSelectElement).value as typeof sortBy)}
-				class="rounded-lg border border-(--line-divider) bg-(--card-bg) px-3 py-1.5 text-xs text-neutral-600 dark:text-neutral-400 outline-none cursor-pointer"
-			>
-				<option value="rating-desc">{i18n(I18nKey.animeRatingDesc)}</option>
-				<option value="rating-asc">{i18n(I18nKey.animeRatingAsc)}</option>
-				<option value="date-desc">{i18n(I18nKey.animeDateDesc)}</option>
-				<option value="date-asc">{i18n(I18nKey.animeDateAsc)}</option>
-			</select>
+			<div class="relative">
+				<select
+					value={sortBy}
+					onchange={(e) => setSort((e.target as HTMLSelectElement).value as typeof sortBy)}
+					class="appearance-none rounded-xl border border-(--line-divider) bg-(--card-bg) pl-3.5 pr-9 py-1.5 text-xs font-medium text-neutral-600 dark:text-neutral-400 outline-none cursor-pointer transition-all duration-200 focus:border-(--primary) focus:ring-2 focus:ring-(--primary)/20"
+				>
+					<option value="rating-desc">{i18n(I18nKey.animeRatingDesc)}</option>
+					<option value="rating-asc">{i18n(I18nKey.animeRatingAsc)}</option>
+					<option value="date-desc">{i18n(I18nKey.animeDateDesc)}</option>
+					<option value="date-asc">{i18n(I18nKey.animeDateAsc)}</option>
+				</select>
+				<svg class="absolute right-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+				</svg>
+			</div>
 		</div>
 	</div>
 
 	<!-- 卡片网格 -->
 	{#if pagedItems().length > 0}
-		<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-			{#each pagedItems() as anime (anime.id)}
+		<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-5">
+			{#each pagedItems() as anime (`${anime.source}-${anime.id}`)}
 				<AnimeCard {anime} onclick={openDetail} />
 			{/each}
 		</div>
 	{:else}
-		<div class="py-16 text-center">
-			<svg class="mx-auto h-12 w-12 text-neutral-300 dark:text-neutral-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-			</svg>
-			<p class="text-neutral-500 dark:text-neutral-400">{i18n(I18nKey.animeNoResults)}</p>
+		<div class="py-20 text-center">
+			<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-neutral-100 dark:bg-neutral-800 mb-4">
+				<svg class="h-8 w-8 text-neutral-400 dark:text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+				</svg>
+			</div>
+			<p class="text-neutral-500 dark:text-neutral-400 font-medium">{i18n(I18nKey.animeNoResults)}</p>
+			<p class="text-sm text-neutral-400 dark:text-neutral-500 mt-1">{i18n(I18nKey.animeSearchHint)}</p>
 		</div>
 	{/if}
 

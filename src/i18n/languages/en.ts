@@ -167,6 +167,7 @@ export const en: Translation = {
 	[Key.animeDateDesc]: "Newest",
 	[Key.animeDateAsc]: "Oldest",
 	[Key.animeNoResults]: "No matching anime found",
+	[Key.animeSearchHint]: "Try different keywords",
 	[Key.animeLastUpdated]: "Data updated at",
 	[Key.animeSource]: "Source",
 	[Key.animeEpStatus]: "Progress",

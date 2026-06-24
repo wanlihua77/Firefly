@@ -167,6 +167,7 @@ export const ja: Translation = {
 	[Key.animeDateDesc]: "新しい順",
 	[Key.animeDateAsc]: "古い順",
 	[Key.animeNoResults]: "一致するアニメが見つかりません",
+	[Key.animeSearchHint]: "別のキーワードを試してください",
 	[Key.animeLastUpdated]: "データ更新",
 	[Key.animeSource]: "データソース",
 	[Key.animeEpStatus]: "進捗",

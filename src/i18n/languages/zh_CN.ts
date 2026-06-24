@@ -163,6 +163,7 @@ export const zh_CN: Translation = {
 	[Key.animeDateDesc]: "最新发布",
 	[Key.animeDateAsc]: "最早发布",
 	[Key.animeNoResults]: "没有找到匹配的番剧",
+	[Key.animeSearchHint]: "试试其他关键词吧",
 	[Key.animeLastUpdated]: "数据更新于",
 	[Key.animeSource]: "数据来源",
 	[Key.animeEpStatus]: "进度",

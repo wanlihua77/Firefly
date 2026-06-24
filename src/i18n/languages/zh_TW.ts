@@ -165,6 +165,7 @@ export const zh_TW: Translation = {
 	[Key.animeDateDesc]: "最新發布",
 	[Key.animeDateAsc]: "最早發布",
 	[Key.animeNoResults]: "沒有找到匹配的番劇",
+	[Key.animeSearchHint]: "試試其他關鍵詞吧",
 	[Key.animeLastUpdated]: "數據更新於",
 	[Key.animeSource]: "數據來源",
 	[Key.animeEpStatus]: "進度",

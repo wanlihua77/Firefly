@@ -163,6 +163,7 @@ enum I18nKey {
 	animeDateDesc = "animeDateDesc",
 	animeDateAsc = "animeDateAsc",
 	animeNoResults = "animeNoResults",
+	animeSearchHint = "animeSearchHint",
 	animeLastUpdated = "animeLastUpdated",
 	animeSource = "animeSource",
 	animeEpStatus = "animeEpStatus",

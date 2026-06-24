@@ -168,6 +168,7 @@ export const ru: Translation = {
 	[Key.animeDateDesc]: "Сначала новые",
 	[Key.animeDateAsc]: "Сначала старые",
 	[Key.animeNoResults]: "Аниме не найдено",
+	[Key.animeSearchHint]: "Попробуйте другие ключевые слова",
 	[Key.animeLastUpdated]: "Данные обновлены",
 	[Key.animeSource]: "Источник",
 	[Key.animeEpStatus]: "Прогресс",
