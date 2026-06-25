@@ -2,6 +2,28 @@ import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
+const grammarItemSchema = z.object({
+	title: z.string(),
+	emoji: z.string().default("📖"),
+	level: z.string(),
+	levelColor: z.string().default("#6b7280"),
+	structure: z.string(),
+	meaning: z.string(),
+	examples: z.array(
+		z.object({
+			jp: z.string(),
+			cn: z.string(),
+		}),
+	),
+	tips: z.string().optional(),
+});
+
+const grammarCategorySchema = z.object({
+	category: z.string(),
+	remark: z.string().optional().default(""),
+	items: z.array(grammarItemSchema),
+});
+
 const postsCollection = defineCollection({
 	loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/posts" }),
 	schema: z.object({
@@ -22,6 +44,7 @@ const postsCollection = defineCollection({
 		comment: z.boolean().optional().default(true),
 		password: z.string().optional().default(""),
 		passwordHint: z.string().optional().default(""),
+		grammarCategories: z.array(grammarCategorySchema).optional(),
 
 		/* For internal use */
 		prevTitle: z.string().default(""),

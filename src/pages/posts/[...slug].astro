@@ -22,6 +22,7 @@ import CoverImage from "@/components/common/CoverImage.astro";
 import PostMetadata from "@/components/layout/PostMeta.astro";
 import RecommendedPost from "@/components/misc/RecommendedPost.astro";
 import SharePoster from "@/components/misc/SharePoster.svelte";
+import KnowledgeBase from "@/components/pages/knowledge/KnowledgeBase.svelte";
 import { coverImageConfig } from "@/config/coverImageConfig";
 import { licenseConfig } from "@/config/licenseConfig";
 import { profileConfig } from "@/config/profileConfig";
@@ -47,6 +48,9 @@ const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
 
 const { remarkPluginFrontmatter } = await render(entry);
+
+const isGrammar =
+	entry.data.grammarCategories && entry.data.grammarCategories.length > 0;
 
 const bannerPostMeta = {
 	title: entry.data.title,
@@ -151,6 +155,11 @@ const relatedPosts = await getRelatedPosts(entry, 5);
     type="application/ld+json"
     set:html={JSON.stringify(jsonLd)}
   />
+  {isGrammar ? (
+    <div class="mb-4">
+      <KnowledgeBase categories={entry.data.grammarCategories ?? []} client:only="svelte" />
+    </div>
+  ) : (
   <div
     class="flex w-full rounded-(--radius-large) overflow-hidden relative mb-4"
   >
@@ -437,7 +446,10 @@ const relatedPosts = await getRelatedPosts(entry, 5);
       )}
     </div>
   </div>
+  )}
 
+  {!isGrammar && (
+  <>
   <!-- 上次编辑时间 -->
   {
     siteConfig.post.showLastModified && (() => {
@@ -544,4 +556,6 @@ const relatedPosts = await getRelatedPosts(entry, 5);
 
   <!-- 评论 -->
   {entry.data.comment && !entry.data.password && <Comment post={entry} />}
+  </>
+  )}
 </MainGridLayout>

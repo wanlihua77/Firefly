@@ -551,6 +551,52 @@ const siteLang = lang.replace("_", "-");
 
     <!-- Font Manager -->
     <FontManager />
+
+    {/* 非首页自动滚动到内容区域，跳过顶部横幅 */}
+    {!isHomePageCheck && (backgroundWallpaper.mode === "banner" || backgroundWallpaper.mode === "fullscreen") && (
+    <script is:inline>
+      (function() {
+        function isHome() {
+          var p = window.location.pathname;
+          return p === "/" || p === "";
+        }
+
+        function scrollToContent() {
+          if (isHome()) return;
+          // 直接计算 banner 高度（35vh）并滚动
+          var bannerHeight = window.innerHeight * 0.35 + 132;
+          if (window.scrollY < bannerHeight) {
+            window.scrollTo({ top: bannerHeight, behavior: 'auto' });
+          }
+        }
+
+        // 多次尝试确保滚动成功
+        function tryScroll() {
+          scrollToContent();
+          setTimeout(scrollToContent, 100);
+          setTimeout(scrollToContent, 300);
+          setTimeout(scrollToContent, 500);
+        }
+
+        // 页面加载时滚动
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryScroll);
+        } else {
+          tryScroll();
+        }
+
+        // Swup 页面切换后滚动
+        document.addEventListener('astro:page-load', function() {
+          setTimeout(tryScroll, 100);
+        });
+
+        // 窗口加载完成后也尝试
+        window.addEventListener('load', function() {
+          setTimeout(tryScroll, 100);
+        });
+      })();
+    </script>
+    )}
   </head>
   <body
     class="min-h-screen"
